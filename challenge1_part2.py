@@ -1,3 +1,5 @@
+# Advent of Code 2019: Day 1, Part 2
+# https://adventofcode.com/2019/day/1
 import math
 
 def calc_fuel(mass):
