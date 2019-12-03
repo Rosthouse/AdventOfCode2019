@@ -1,7 +1,5 @@
-import math
-
-
-##
+# Advent of Code 2019: Day 3, Part 1
+# https://adventofcode.com/2019/day/3
 def man_dist(p1: (int,  int), p2: (int, int)) -> int:
     return abs(abs(p1[0]) - abs(p2[0])) + abs(abs(p1[1]) - abs(p2[1]))
 

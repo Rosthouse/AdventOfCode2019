@@ -1,6 +1,5 @@
-import math
-
-
+# Advent of Code 2019: Day 3, Part 2
+# https://adventofcode.com/2019/day/3
 class Cell:
 
     def __init__(self, x: int, y: int, steps: int):
