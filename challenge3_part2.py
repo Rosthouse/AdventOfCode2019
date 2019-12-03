@@ -69,14 +69,6 @@ def calculate_min_intersection(w1: str, w2: str):
 
     steps = steps_for_intersections(intersections, cable1, cable2)
 
-    # steps1 = steps_to_intersection(cable1, intersections)
-    # steps2 = steps_to_intersection(cable2, intersections)
-
-    # steps = []
-    # for i in range(0, len(steps1), 1):
-    #     steps.append(steps1[i] + steps2[i])
-
-    # min
     zero = Cell(0, 0, 0)
 
     min_pos: Cell = min(intersections, key=lambda p: man_dist(zero, p))
