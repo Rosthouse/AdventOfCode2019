@@ -1,12 +1,28 @@
 import math
 
 
-##
-def man_dist(p1: (int,  int), p2: (int, int)) -> int:
-    return abs(abs(p1[0]) - abs(p2[0])) + abs(abs(p1[1]) - abs(p2[1]))
+class Cell:
+
+    def __init__(self, x: int, y: int, steps: int):
+        self.x = x
+        self.y = y
+        self.steps = steps
+
+    def __eq__(self, value):
+        return self.x == value.x and self.y == value.y
+
+    def __hash__(self):
+        return hash((self.x, self.y))
+
+    def __str__(self):
+        return "(" + str(self.x) + "," + str(self.y) + "," + str(self.steps) + ")"
 
 
-def lay_cable(wire: [str]) -> [(int, int, int)]:
+def man_dist(p1: Cell, p2: Cell) -> int:
+    return abs(abs(p1.x) - abs(p2.x)) + abs(abs(p1.y) - abs(p2.y))
+
+
+def lay_cable(wire: [str]) -> [Cell]:
     pos = (0, 0)
     switcher = {
         "R": lambda pos: (pos[0]+1, pos[1]),
@@ -14,7 +30,7 @@ def lay_cable(wire: [str]) -> [(int, int, int)]:
         "U": lambda pos: (pos[0],   pos[1]+1),
         "D": lambda pos: (pos[0],   pos[1]-1)
     }
-    cable: [(int, int, int)] = []
+    cable: [Cell] = []
     step_counter = 1
     for i in range(0, len(wire), 1):
         command = wire[i]
@@ -23,22 +39,22 @@ def lay_cable(wire: [str]) -> [(int, int, int)]:
         func = switcher.get(op)
         for j in range(0, count, 1):
             pos = func(pos)
-            cable.append((pos[0], pos[1], step_counter))
+            cable.append(Cell(pos[0], pos[1], step_counter))
+            step_counter += 1
 
     return cable
 
 
-def find_intersections(w1: (int, int), w2: (int, int)) -> [(int, int)]:
-    set(w1).intersection()
-    return set(w1) - (set(w1) - set(w2))
+def find_intersections(w1: [Cell], w2: [Cell]) -> [Cell]:
+    return set(w1).intersection(set(w2))
 
-def steps_to_intersection(wire: [(int, int)], intersections: [(int, int)]) -> [int]:
-    steps = []
-    for i in range(0, len(intersections), 1):
-        for j in range(0, len(wire), 1):
-            if(intersections[i] == wire[j]):
-                steps.append(j)
-                break
+
+def steps_for_intersections(intersections: [Cell], c1: [Cell], c2: [Cell]) -> [int]:
+    steps: [int] = []
+    for int_cell in intersections:
+        cell1 = next(x for x in c1 if x == int_cell)
+        cell2 = next(x for x in c2 if x == int_cell)
+        steps.append(cell1.steps + cell2.steps)
     return steps
 
 
@@ -50,20 +66,23 @@ def calculate_min_intersection(w1: str, w2: str):
     cable2 = lay_cable(wire2)
 
     intersections = find_intersections(cable1, cable2)
-    print(intersections)
 
-    steps1 = steps_to_intersection(cable1, intersections)
-    steps2 = steps_to_intersection(cable2, intersections)
+    steps = steps_for_intersections(intersections, cable1, cable2)
 
-    steps = []
-    for i in range(0, len(steps1), 1):
-        steps.append(steps1[i] + steps2[i])
+    # steps1 = steps_to_intersection(cable1, intersections)
+    # steps2 = steps_to_intersection(cable2, intersections)
 
-    min
+    # steps = []
+    # for i in range(0, len(steps1), 1):
+    #     steps.append(steps1[i] + steps2[i])
 
-    min_pos = min(intersections, key=lambda p: man_dist((0, 0), p))
-    print(min_pos)
-    min_dist=man_dist((0, 0), min_pos)
+    # min
+    zero = Cell(0, 0, 0)
+
+    min_pos: Cell = min(intersections, key=lambda p: man_dist(zero, p))
+    min_dist = man_dist(zero, min_pos)
+    min_steps: int = min(steps)
+    print("Minimum steps: " + str(min_steps))
     return min_dist
 
 
