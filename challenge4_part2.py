@@ -1,8 +1,7 @@
-
+# Advent of Code 2019: Day 4, Part 2
+# https://adventofcode.com/2019/day/4
 
 def verify_pw(pw: int) -> bool:
-    # pwString =
-    # a = [x for x in pwString]
     elements: [int] = list(map(lambda digit: int(digit), str(pw)))
 
     double: bool = False
