@@ -1,5 +1,5 @@
-# Advent of Code 2019: Day 2, Part 2
-# https://adventofcode.com/2019/day/2
+# Advent of Code 2019: Day 5, Part 1
+# https://adventofcode.com/2019/day/5
 
 
 def run(code):
@@ -23,7 +23,6 @@ def run(code):
 
         instruction = list(map(lambda x: int(x), str(code[function_pointer])))
 
-        # TODO: Handle 99
         while len(instruction) < 5:
             instruction.insert(0, 0)
 
