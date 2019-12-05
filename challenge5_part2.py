@@ -2,7 +2,7 @@
 # https://adventofcode.com/2019/day/2
 
 
-def run(code):
+def run(code, debug = False):
 
     params = {
         1: 4,
@@ -35,7 +35,8 @@ def run(code):
         opcode = code[function_pointer:function_pointer +
                       params.get(op)]
 
-        print("Instruction: " + str(opcode))
+        if debug:
+            print("Instruction: " + str(opcode))
 
         if(op == 99):
             break
@@ -93,8 +94,10 @@ def run(code):
 # # 
 # print("Expected: 1")
 # run([3,9,8,9,10,9,4,9,99,-1,8])
+run([3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9])
+run([3,3,1105,-1,9,1101,0,0,12,4,12,99,1])
 
 
-code = list(map(lambda x: int(x), open(
-    "./res/challenge5.txt").readline().split(",")))
-result = run(code)
+# code = list(map(lambda x: int(x), open(
+#     "./res/challenge5.txt").readline().split(",")))
+# result = run(code)
