@@ -2,8 +2,9 @@
 # https://adventofcode.com/2019/day/5
 
 
-def run(code, debug = False):
+def run(code, debug=False):
 
+    # defines how many parameters each operation has
     params = {
         1: 4,
         2: 4,
@@ -17,8 +18,8 @@ def run(code, debug = False):
     }
 
     modes = {
-        0: lambda x: code[x],
-        1: lambda x: x,
+        0: lambda x: code[x],   # Position mode
+        1: lambda x: x,         # Immediate mode
     }
 
     function_pointer = 0
@@ -40,38 +41,38 @@ def run(code, debug = False):
         if(op == 99):
             break
 
-        if op == 1: # add
+        if op == 1:  # add
             val1 = modes.get(instruction[2])(opcode[1])
             val2 = modes.get(instruction[1])(opcode[2])
             code[opcode[3]] = val1 + val2
-        elif op == 2: # multiply
+        elif op == 2:  # multiply
             val1 = modes.get(instruction[2])(opcode[1])
             val2 = modes.get(instruction[1])(opcode[2])
             code[opcode[3]] = val1 * val2
-        elif op == 3: # input
+        elif op == 3:  # input
             code[opcode[1]] = int(input("Input:"))
-        elif op == 4: # output
+        elif op == 4:  # output
             print("Out: " + str(code[opcode[1]]))
-        elif op == 5: #jump-if-true
+        elif op == 5:  # jump-if-true
             val1 = modes.get(instruction[2])(opcode[1])
             val2 = modes.get(instruction[1])(opcode[2])
             if(val1 != 0):
                 function_pointer = val2
                 continue
-        elif op == 6: #jump-if-false
+        elif op == 6:  # jump-if-false
             val1 = modes.get(instruction[2])(opcode[1])
             val2 = modes.get(instruction[1])(opcode[2])
             if(val1 == 0):
                 function_pointer = val2
                 continue
-        elif op == 7: #less than
+        elif op == 7:  # less than
             val1 = modes.get(instruction[2])(opcode[1])
             val2 = modes.get(instruction[1])(opcode[2])
             if(val1 < val2):
                 code[opcode[3]] = 1
             else:
                 code[opcode[3]] = 0
-        elif op == 8: #equals
+        elif op == 8:  # equals
             val1 = modes.get(instruction[2])(opcode[1])
             val2 = modes.get(instruction[1])(opcode[2])
             if(val1 == val2):
@@ -79,7 +80,6 @@ def run(code, debug = False):
             else:
                 code[opcode[3]] = 0
 
-            
         function_pointer += params.get(op)
     return code
 
@@ -90,11 +90,13 @@ def run(code, debug = False):
 # print(run([1101, 37, 61, 3, 99]))
 # print("Expected: 135")
 # run([101, 34, 0, 3, 4, 3, 99])
-# # 
+# #
 # print("Expected: 1")
 # run([3,9,8,9,10,9,4,9,99,-1,8])
-run([3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9])
-run([3,3,1105,-1,9,1101,0,0,12,4,12,99,1])
+# Position mode: output 0 if the input was zero or 1 if the input was non-zero
+run([3, 12, 6, 12, 15, 1, 13, 14, 13, 4, 13, 99, -1, 0, 1, 9])
+# Immediate mode: output 0 if the input was zero or 1 if the input was non-zero
+run([3, 3, 1105, -1, 9, 1101, 0, 0, 12, 4, 12, 99, 1])
 
 
 # code = list(map(lambda x: int(x), open(

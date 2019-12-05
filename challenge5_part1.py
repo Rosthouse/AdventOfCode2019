@@ -4,17 +4,22 @@
 
 def run(code):
 
+    # defines how many parameters each operation has
     params = {
         1: 4,
         2: 4,
         3: 2,
         4: 2,
+        5: 3,
+        6: 3,
+        7: 4,
+        8: 4,
         99: 1
     }
 
     modes = {
-        0: lambda x: code[x],
-        1: lambda x: x,
+        0: lambda x: code[x],   # Position mode
+        1: lambda x: x,         # Immediate mode
     }
 
     function_pointer = 0
