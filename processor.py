@@ -21,6 +21,7 @@ class Processor:
         self.code: [int] = code
         self.out: [int] = []
         self.hasFinished: bool = False
+        self.input: [int] = []
 
     def setInput(self, inp) -> None:
         self.input = inp
@@ -85,8 +86,9 @@ class Processor:
                 self.code[opcode[3]] = 1
             else:
                 self.code[opcode[3]] = 0
-        if op == 99:
+        elif op == 99:
             self.hasFinished = True
+            print("Halted")
             return
 
         self.function_pointer += self.params.get(op)
