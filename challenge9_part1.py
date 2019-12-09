@@ -1,10 +1,9 @@
+# Advent of Code 2019: Day 9, Part 1
+# https://adventofcode.com/2019/day/9
+
+
 from processor import Processor
 from utils import read_intcode
-# add relative mode
-
-# Add opcode 9
-
-# Add huge memory
 
 proc = Processor([109, 1, 204, -1, 1001, 100, 1, 100,
                   1008, 100, 16, 101, 1006, 101, 0, 99])
