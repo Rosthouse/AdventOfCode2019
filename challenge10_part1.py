@@ -16,22 +16,21 @@ def parseAsteroids(text: str) -> [(int, int)]:
 def findClosest(center: (int, int), neighbors: [(int, int)]):
     centerArr = np.array(center)
     closest = {}
-    xAxis = np.array([1,0])
     print(f"Testing {center}")
     for neighbor in neighbors:
         neighborArr = np.array(neighbor)
         direction = np.subtract(neighborArr, centerArr)
-        dist = np.sqrt(np.sum(direction**2))
-        angle = np.dot(direction, xAxis)
+        magn = np.linalg.norm(direction)
+        angle = np.arctan2(neighborArr[1], neighborArr[0])
         if angle in closest:
-            if dist < closest[angle][1]:
+            if magn <= closest[angle][1]:
                 print(f"{neighbor} hides {closest[angle][0]}")
-                closest[angle] = (neighbor, dist)
+                closest[angle] = (neighbor, magn)
             else:
                 print(f"Invisible: {neighbor}")
         else:
             print(f"Inserting {neighbor} at {angle}")
-            closest[angle] = (neighbor, dist)
+            closest[angle] = (neighbor, magn)
 
         # closest[angle] = min(closest.get(angle, np.inf), dist)
     return closest
@@ -55,16 +54,19 @@ first = parseAsteroids(""".#..#
 ....#
 ...##""")
 
+expected = [(1, 0), (4, 0), (0, 2), (1, 2), (2, 2),
+            (3, 2), (4, 2), (4, 3), (3, 4), (4, 4)]
+# assert(expected == first)
 
 second = parseAsteroids("""......#.#.
-#..#.#....
+# ..#.#....
 ..#######.
 .#.#.###..
 .#..#.....
 ..#....#.#
-#..#....#.
+# ..#....#.
 .##.#..###
-##...#..#.
+# ...#..#.
 .#....####""")
 third = parseAsteroids("""#.#...#.#.
 .###....#.
