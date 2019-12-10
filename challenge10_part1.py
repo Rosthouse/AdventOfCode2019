@@ -1,5 +1,6 @@
 
-import numpy as np
+# import numpy as np
+import math
 
 
 def parseAsteroids(text: str) -> [(int, int)]:
@@ -13,26 +14,28 @@ def parseAsteroids(text: str) -> [(int, int)]:
     return asteroids
 
 
+def length(vec: (int, int)) -> float:
+    return math.sqrt(math.pow(vec[0], 2) + math.pow(vec[1], 2))
+
+
+def normalize(vec: (int, int)) -> (int, int):
+    magn = length(vec)
+    return (vec[0] / magn, vec[1] / magn)
+
+
 def findClosest(center: (int, int), neighbors: [(int, int)]):
-    centerArr = np.array(center)
     closest = {}
-    print(f"Testing {center}")
     for neighbor in neighbors:
-        neighborArr = np.array(neighbor)
-        direction = np.subtract(neighborArr, centerArr)
-        magn = np.linalg.norm(direction)
-        angle = np.arctan2(neighborArr[1], neighborArr[0])
+        direction = (neighbor[0] - center[0], neighbor[1] - center[1])
+        magn = length(direction)
+        angle =math.atan2(direction[0], direction[1]) * 180/math.pi
         if angle in closest:
-            if magn <= closest[angle][1]:
-                print(f"{neighbor} hides {closest[angle][0]}")
+            if magn < closest[angle][1]:
                 closest[angle] = (neighbor, magn)
             else:
-                print(f"Invisible: {neighbor}")
+                continue
         else:
-            print(f"Inserting {neighbor} at {angle}")
             closest[angle] = (neighbor, magn)
-
-        # closest[angle] = min(closest.get(angle, np.inf), dist)
     return closest
 
 
@@ -42,7 +45,7 @@ def findBestVantagePoint(asteroids: [(int, int)]):
         distances = findClosest(
             asteroid, [x for x in asteroids if x != asteroid])
         # We add one for the center asteroid itself
-        if len(distances) > bestVantagePoint[1]:
+        if len(distances) >= bestVantagePoint[1]:
             bestVantagePoint = (asteroid, len(distances))
 
     return bestVantagePoint
@@ -78,6 +81,46 @@ third = parseAsteroids("""#.#...#.#.
 ..##....##
 ......#...
 .####.###.""")
-print(f"First: {findBestVantagePoint(first)}")
-# print(f"Second: {findBestVantagePoint(second)}")
-# print(f"Third: {findBestVantagePoint(third)}")
+
+fourth = parseAsteroids(""".#..#..###
+####.###.#
+....###.#.
+..###.##.#
+##.##.#.#.
+....###..#
+..#.#..#.#
+#..#.#.###
+.##...##.#
+.....#.#..""")
+
+fifth = parseAsteroids(""".#..##.###...#######
+##.############..##.
+.#.######.########.#
+.###.#######.####.#.
+#####.##.#.##.###.##
+..#####..#.#########
+####################
+#.####....###.#.#.##
+##.#################
+#####.##.###..####..
+..######..##.#######
+####.##.####...##..#
+.#####..#.######.###
+##...#.##########...
+#.##########.#######
+.####.#.###.###.#.##
+....##.##.###..#####
+.#.#.###########.###
+#.#.#.#####.####.###
+###.##.####.##.#..##""")
+
+test = parseAsteroids(open("./res/challenge10.txt").read())
+
+print(f"Expected ((3,4), 8): {findBestVantagePoint(first)}")
+print(f"Expected ((5,8), 33): {findBestVantagePoint(second)}")
+print(f"Expected ((1,2), 35): {findBestVantagePoint(third)}")
+print(f"Expected ((6,3), 41): {findBestVantagePoint(fourth)}")
+print(f"Expected ((11,13), 210): {findBestVantagePoint(fifth)}")
+
+
+print(f"Actual:  {findBestVantagePoint(test)}")
