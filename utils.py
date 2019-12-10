@@ -9,6 +9,10 @@ def length(vec: (int, int)) -> float:
     return math.sqrt(math.pow(vec[0], 2) + math.pow(vec[1], 2))
 
 
+def add(a: (int, int), b: (int, int)) -> (int, int):
+    return (a[0] + b[0], a[1] + b[1])
+
+
 def normalize(vec: (int, int)) -> (int, int):
     magn = length(vec)
     return (vec[0] / magn, vec[1] / magn)
