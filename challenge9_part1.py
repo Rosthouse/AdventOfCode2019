@@ -3,7 +3,7 @@
 
 
 from processor import Processor
-from utils import read_intcode
+from utils import readIntCode
 
 proc = Processor([109, 1, 204, -1, 1001, 100, 1, 100,
                   1008, 100, 16, 101, 1006, 101, 0, 99])
@@ -24,7 +24,7 @@ proc.setInput([25])
 proc.run(True)
 print(f"Output: {proc.getOutput()}, Memory: {proc.memory}")
 
-code = read_intcode("./res/challenge9.txt")
+code = readIntCode("./res/challenge9.txt")
 proc = Processor(code)
 proc.setInput([1])
 while not proc.hasFinished:

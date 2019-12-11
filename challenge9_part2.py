@@ -2,9 +2,9 @@
 # https://adventofcode.com/2019/day/9
 
 from processor import Processor
-from utils import read_intcode
+from utils import readIntCode
 
-code = read_intcode("./res/challenge9.txt")
+code = readIntCode("./res/challenge9.txt")
 proc = Processor(code)
 proc.setInput([2])
 proc.run()
