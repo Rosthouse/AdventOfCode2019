@@ -1,3 +1,6 @@
+# Processor for the IntCode, used in several challenges
+
+
 class Processor:
 
     def __init__(self, code: [int]):
@@ -36,7 +39,7 @@ class Processor:
         self.hasFinished: bool = False
         self.input: [int] = []
 
-    def setInput(self, inp) -> None:
+    def setInput(self, inp: [int]) -> None:
         self.input = inp
 
     def getOutput(self) -> [int]:
