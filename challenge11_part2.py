@@ -34,14 +34,14 @@ yMax = max([x[1] for x in list(panels.keys())])
 
 panel: [[str]] = []
 
-for y in range(yMin, yMax, 1):
+for y in range(yMin, yMax + 1, 1):
     row = []
-    for x in range(xMin, xMax, 1):
+    for x in range(xMin, xMax + 1, 1):
         row.append("X")
     panel.append(row)
 
 for p in panels:
     pos = (p[0] - xMin, p[1] - yMin)
-    panel[pos[1] - 1][pos[0] - 1] = "#" if panels[p] else "."
+    panel[pos[1]][pos[0]] = "#" if panels[p] else "."
 
 print("\n".join(''.join(i for i in x) for x in panel))
