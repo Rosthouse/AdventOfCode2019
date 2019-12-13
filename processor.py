@@ -37,10 +37,12 @@ class Processor:
         self.memory: [int] = code
         self.out: [int] = []
         self.hasFinished: bool = False
+        self.requiresInput: bool = False
         self.input: [int] = []
 
     def setInput(self, inp: [int]) -> None:
         self.input = inp
+        self.requiresInput = False
 
     def getOutput(self) -> [int]:
         return self.out
@@ -72,7 +74,11 @@ class Processor:
             val2 = self.get_value(instruction[1], opcode[2])
             self.set_value(instruction[0], opcode[3], val1 * val2)
         elif op == 3:  # input
-            self.set_value(instruction[2], opcode[1], self.input.pop(0))
+            if len(self.input) > 0:
+                self.set_value(instruction[2], opcode[1], self.input.pop(0))
+            else:
+                self.requiresInput = True
+                return
         elif op == 4:  # output
             self.out.append(self.get_value(instruction[2], opcode[1]))
         elif op == 5:  # jump-if-true
